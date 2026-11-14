@@ -23,6 +23,13 @@ async function main() {
   if (!source) throw new Error(`Fonte desconhecida: ${sourceId}`);
 
   const snapshot = await source.build({ season });
+  const report = (source as { lastReport?: { warnings: string[]; missingClubs: string[] } }).lastReport;
+  if (report) {
+    for (const w of report.warnings) console.warn(`aviso: ${w}`);
+    if (report.missingClubs.length > 0) {
+      console.warn(`faltam ${report.missingClubs.length} clube(s): ${report.missingClubs.join(", ")}`);
+    }
+  }
   const issues = validateSnapshot(snapshot);
   if (issues.length > 0) {
     for (const i of issues.slice(0, 50)) console.error(`${i.path}: ${i.message}`);

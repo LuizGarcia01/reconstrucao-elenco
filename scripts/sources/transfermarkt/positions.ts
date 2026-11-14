@@ -1,10 +1,24 @@
 import type { Position } from "../../../engine/catalog";
 
 /**
- * Rótulos de posição do Transfermarkt (versões .com e .com.br) para as nossas posições.
- * Os rótulos em português ainda precisam ser conferidos nas páginas reais.
+ * Rótulos de posição do Transfermarkt para as nossas posições.
+ * Os rótulos em português foram conferidos na página de elenco do .com.br (nov/2026).
  */
 const MAP: Record<string, Position> = {
+  // .com.br (português)
+  goleiro: "GK",
+  zagueiro: "CB",
+  "lateral esq.": "LB",
+  "lateral dir.": "RB",
+  volante: "DM",
+  "meia central": "CM",
+  "meia ofensivo": "AM",
+  "meia esquerda": "LW",
+  "meia direita": "RW",
+  "ponta-esquerda": "LW",
+  "ponta-direita": "RW",
+  "seg. atacante": "ST",
+  centroavante: "ST",
   // .com (inglês)
   goalkeeper: "GK",
   "centre-back": "CB",
@@ -19,24 +33,6 @@ const MAP: Record<string, Position> = {
   "right winger": "RW",
   "second striker": "ST",
   "centre-forward": "ST",
-  // .com.br (português) — a conferir
-  goleiro: "GK",
-  zagueiro: "CB",
-  "lateral esq.": "LB",
-  "lateral esquerdo": "LB",
-  "lateral dir.": "RB",
-  "lateral direito": "RB",
-  volante: "DM",
-  "meia central": "CM",
-  "meio-campo": "CM",
-  "meia ofensivo": "AM",
-  "meia esquerda": "LW",
-  "meia direita": "RW",
-  "ponta esquerda": "LW",
-  "ponta direita": "RW",
-  "seg. atacante": "ST",
-  "segundo atacante": "ST",
-  centroavante: "ST",
 };
 
 export function mapPosition(label: string): Position | null {

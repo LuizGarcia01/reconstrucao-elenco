@@ -1,0 +1,41 @@
+# Páginas de elenco da Série A 2026 (visão detalhada). Abra no navegador e salve com Ctrl+S.
+# Athletico Paranaense
+https://www.transfermarkt.com.br/club-athletico-paranaense/kader/verein/679/saison_id/2025/plus/1
+# Atlético Mineiro
+https://www.transfermarkt.com.br/clube-atletico-mineiro/kader/verein/330/saison_id/2025/plus/1
+# Botafogo
+https://www.transfermarkt.com.br/botafogo-rio-de-janeiro/kader/verein/537/saison_id/2025/plus/1
+# Chapecoense
+https://www.transfermarkt.com.br/chapecoense/kader/verein/17776/saison_id/2025/plus/1
+# Remo
+https://www.transfermarkt.com.br/clube-do-remo-pa-/kader/verein/10997/saison_id/2025/plus/1
+# Corinthians
+https://www.transfermarkt.com.br/corinthians-sao-paulo/kader/verein/199/saison_id/2025/plus/1
+# Coritiba
+https://www.transfermarkt.com.br/coritiba-fc/kader/verein/776/saison_id/2025/plus/1
+# Cruzeiro
+https://www.transfermarkt.com.br/ec-cruzeiro-belo-horizonte/kader/verein/609/saison_id/2025/plus/1
+# Bahia
+https://www.transfermarkt.com.br/esporte-clube-bahia/kader/verein/10010/saison_id/2025/plus/1
+# Vitória
+https://www.transfermarkt.com.br/esporte-clube-vitoria/kader/verein/2125/saison_id/2025/plus/1
+# Santos
+https://www.transfermarkt.com.br/fc-santos/kader/verein/221/saison_id/2025/plus/1
+# São Paulo
+https://www.transfermarkt.com.br/fc-sao-paulo/kader/verein/585/saison_id/2025/plus/1
+# Flamengo
+https://www.transfermarkt.com.br/flamengo-rio-de-janeiro/kader/verein/614/saison_id/2025/plus/1
+# Fluminense
+https://www.transfermarkt.com.br/fluminense-rio-de-janeiro/kader/verein/2462/saison_id/2025/plus/1
+# Grêmio
+https://www.transfermarkt.com.br/gremio-porto-alegre/kader/verein/210/saison_id/2025/plus/1
+# Mirassol
+https://www.transfermarkt.com.br/mirassol-futebol-clube-sp-/kader/verein/3876/saison_id/2025/plus/1
+# Bragantino
+https://www.transfermarkt.com.br/red-bull-bragantino/kader/verein/8793/saison_id/2025/plus/1
+# Internacional
+https://www.transfermarkt.com.br/sc-internacional-porto-alegre/kader/verein/6600/saison_id/2025/plus/1
+# Palmeiras
+https://www.transfermarkt.com.br/se-palmeiras-sao-paulo/kader/verein/1023/saison_id/2025/plus/1
+# Vasco da Gama
+https://www.transfermarkt.com.br/vasco-da-gama-rio-de-janeiro/kader/verein/978/saison_id/2025/plus/1

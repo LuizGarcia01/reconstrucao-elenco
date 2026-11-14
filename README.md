@@ -36,3 +36,13 @@ src/messages/    todo texto de interface (pt-BR)
 - Dinheiro é inteiro, em milhares de euros.
 - Texto de interface vai em `src/messages/`, nunca solto no componente.
 - Alvos de toque com pelo menos 44 px; projeto pensado primeiro para 360 px de largura.
+
+## Atualizando os dados (Transfermarkt)
+
+O site do Transfermarkt tem verificação anti-robô e o projeto não a contorna. Os dados vêm de páginas salvas no navegador:
+
+1. Abra cada página de elenco listada em `scripts/sources/transfermarkt/urls-2026.txt`.
+2. Salve com Ctrl+S como "Página da web, somente HTML" em `data/raw/transfermarkt/2026/` (o nome do arquivo não importa).
+3. Rode `npm run snapshot`. O comando avisa quais clubes faltam e qualquer posição ou país sem mapa.
+
+`data/raw/` não é versionado.
