@@ -42,3 +42,5 @@ next-env.d.ts
 
 # páginas salvas de terceiros: não versionar
 /data/raw/
+# retrato gerado: fica fora do git até decidirmos se é versionado ou gerado no deploy
+/data/snapshot.json
