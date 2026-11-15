@@ -12,3 +12,4 @@ export * from "./market";
 export * from "./balance";
 export * from "./lineup";
 export * from "./sim";
+export * from "./share";
