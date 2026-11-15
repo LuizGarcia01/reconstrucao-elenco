@@ -2,14 +2,14 @@
   "version": 1,
   "season": "2026",
   "source": "transfermarkt",
-  "generatedAt": "2026-11-15T14:22:32.417Z",
+  "generatedAt": "2026-11-15T14:28:04.456Z",
   "leagues": [
     {
       "id": "br-a",
       "name": "Brasileirão Série A",
       "country": "BR",
       "tier": 1,
-      "foreignLimit": 9
+      "foreignLimit": 8
     }
   ],
   "clubs": [
