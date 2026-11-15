@@ -18,6 +18,7 @@ export function fromMillions(millions: number): Money {
 
 /** Formata para exibição: 1500 -> "€ 1,5 mi"; 800 -> "€ 800 mil". */
 export function formatMoney(value: Money): string {
+  if (value === 0) return "€ 0";
   const sign = value < 0 ? "-" : "";
   const abs = Math.abs(value);
   if (abs >= 1000) {
