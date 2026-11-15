@@ -9,6 +9,7 @@ import { overallFrom } from "./rating";
 import { createRng, hashSeed, type Rng } from "./rng";
 import { ageOn } from "./catalog";
 import { SEASON_START } from "./season";
+import { encodePlan, type SharedPlan } from "./share";
 
 export interface TeamStrength {
   defense: number;
@@ -224,17 +225,15 @@ export function tableAfter(result: LeagueResult, round: number): TableRow[] {
   return sortTable([...rows.values()]);
 }
 
-/** Semente do plano: hash das decisões que mudam o resultado. */
+/**
+ * Semente do plano: hash da forma canônica usada no link (campos em ordem fixa),
+ * para que o mesmo plano dê o mesmo campeonato em qualquer aparelho.
+ * O orçamento fica de fora: ele não muda o que acontece em campo.
+ */
 export function planSeed(plan: Plan): number {
-  return hashSeed(
-    JSON.stringify({
-      c: plan.clubId,
-      d: plan.decisions,
-      s: plan.signings,
-      x: plan.customPlayers,
-      l: plan.lineup ?? null,
-    }),
-  );
+  const canonical: Partial<SharedPlan> = encodePlan(plan);
+  delete canonical.b;
+  return hashSeed(JSON.stringify(canonical));
 }
 
 export function simulateLeague(plan: Plan, catalog: Catalog, seed = planSeed(plan)): LeagueResult {

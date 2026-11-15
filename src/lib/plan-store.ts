@@ -22,6 +22,8 @@ interface PlanState {
   addCustomPlayer: (player: CustomPlayer) => void;
   removeCustomPlayer: (id: string) => void;
   setLineup: (lineup: Lineup) => void;
+  /** Substitui o plano atual por um recebido por link. */
+  importPlan: (plan: Plan) => void;
   undo: () => void;
   reset: () => void;
   /** Jogadores salvos para ver depois no mercado (não fazem parte do plano). */
@@ -113,6 +115,7 @@ export const usePlanStore = create<PlanState>()(
         set((s) =>
           s.plan ? { plan: { ...s.plan, lineup }, history: [...s.history, s.plan].slice(-HISTORY_LIMIT) } : s,
         ),
+      importPlan: (plan) => set({ plan, history: [] }),
       saved: [],
       toggleSaved: (playerId) =>
         set((s) => ({

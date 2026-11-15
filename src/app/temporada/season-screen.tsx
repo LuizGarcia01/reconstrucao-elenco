@@ -259,9 +259,14 @@ function Season({ plan, catalog }: { plan: Plan; catalog: Catalog }) {
         </Card>
       </section>
 
-      <Button variant="outline" className="self-start" asChild>
-        <Link href="/elenco">{t.season.goSquad}</Link>
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button asChild>
+          <Link href="/compartilhar">{t.share.open}</Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link href="/elenco">{t.season.goSquad}</Link>
+        </Button>
+      </div>
     </main>
   );
 }
