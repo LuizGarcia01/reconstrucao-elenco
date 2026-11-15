@@ -20,7 +20,7 @@ const COUNTRIES: Record<string, string> = {
   Panamá: "PA", Paraguai: "PY", Peru: "PE", "Perú": "PE", Polônia: "PL", Portugal: "PT",
   "País de Gales": "GB", Quênia: "KE", "República Tcheca": "CZ", "República Checa": "CZ",
   "República Dominicana": "DO", Romênia: "RO", Rússia: "RU", Senegal: "SN", Sérvia: "RS",
-  Suécia: "SE", Suíça: "CH", Suriname: "SR", "Timor-Leste": "TL", Togo: "TG",
+  Suécia: "SE", Suíça: "CH", "Suiça": "CH", Guiana: "GY", "Guiana Francesa": "GF", Suriname: "SR", "Timor-Leste": "TL", Togo: "TG",
   Tunísia: "TN", Turquia: "TR", Ucrânia: "UA", Uruguai: "UY", Venezuela: "VE",
   "São Tomé e Príncipe": "ST", "São Vicente e Granadinas": "VC", "Trinidad e Tobago": "TT", "El Salvador": "SV", Nicarágua: "NI",
   Montenegro: "ME", Macedônia: "MK", "Macedônia do Norte": "MK", Albânia: "AL", Kosovo: "XK",
