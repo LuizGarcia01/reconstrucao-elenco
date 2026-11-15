@@ -1,44 +1,38 @@
 "use client";
 
-import { buildCatalog, SNAPSHOT_VERSION, type Catalog, type Club, type League, type Player } from "@engine";
+import { buildCatalog, type Catalog, type Club, type Snapshot } from "@engine";
 import { useEffect, useState } from "react";
 
-export interface ClubData {
-  league: League;
-  club: Club;
-  players: Player[];
+type State = { status: "loading" } | { status: "error" } | { status: "ready"; catalog: Catalog };
+
+// Uma única carga por sessão do navegador, compartilhada entre elenco e mercado.
+let pending: Promise<Catalog> | null = null;
+function loadCatalog(): Promise<Catalog> {
+  pending ??= fetch("/dados/catalogo")
+    .then((r) => (r.ok ? (r.json() as Promise<Snapshot>) : Promise.reject(new Error(String(r.status)))))
+    .then(buildCatalog)
+    .catch((err) => {
+      pending = null; // permite tentar de novo
+      throw err;
+    });
+  return pending;
 }
 
-type State = { status: "loading" } | { status: "error" } | { status: "ready"; data: ClubData; catalog: Catalog };
-
-/** Baixa o elenco do clube e monta um catálogo só com ele (suficiente para as regras do elenco). */
-export function useClubCatalog(clubId: string | undefined): State {
-  const [state, setState] = useState<{ id: string; value: State } | null>(null);
-
+export function useCatalog(enabled: boolean): State {
+  const [state, setState] = useState<State>({ status: "loading" });
   useEffect(() => {
-    if (!clubId) return;
+    if (!enabled) return;
     let cancelled = false;
-    fetch(`/dados/clube/${encodeURIComponent(clubId)}`)
-      .then((r) => (r.ok ? (r.json() as Promise<ClubData>) : Promise.reject(new Error(String(r.status)))))
-      .then((data) => {
-        if (cancelled) return;
-        const catalog = buildCatalog({
-          version: SNAPSHOT_VERSION,
-          season: "",
-          source: "",
-          generatedAt: "",
-          leagues: [data.league],
-          clubs: [data.club],
-          players: data.players,
-        });
-        setState({ id: clubId, value: { status: "ready", data, catalog } });
-      })
-      .catch(() => !cancelled && setState({ id: clubId, value: { status: "error" } }));
+    loadCatalog()
+      .then((catalog) => !cancelled && setState({ status: "ready", catalog }))
+      .catch(() => !cancelled && setState({ status: "error" }));
     return () => {
       cancelled = true;
     };
-  }, [clubId]);
+  }, [enabled]);
+  return state;
+}
 
-  if (!clubId || !state || state.id !== clubId) return { status: "loading" };
-  return state.value;
+export function clubOf(catalog: Catalog, clubId: string | undefined): Club | undefined {
+  return clubId ? catalog.clubs.get(clubId) : undefined;
 }

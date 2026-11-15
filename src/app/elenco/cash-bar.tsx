@@ -2,6 +2,7 @@
 
 import { computeCash, formatMoney, squadCounts, validatePlan, type Catalog, type Plan } from "@engine";
 import { AlertCircle } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { t } from "@/messages";
 
 /** Barra fixa com caixa, contadores e pendências que impedem simular. */
-export function CashBar({ plan, catalog }: { plan: Plan; catalog: Catalog }) {
+export function CashBar({ plan, catalog, action }: { plan: Plan; catalog: Catalog; action: { href: string; label: string } }) {
   const cash = computeCash(plan, catalog);
   const counts = squadCounts(plan, catalog);
   const errors = validatePlan(plan, catalog).filter((i) => i.level === "error");
@@ -44,8 +45,8 @@ export function CashBar({ plan, catalog }: { plan: Plan; catalog: Catalog }) {
               {t.squad.issues(errors.length)}
             </Button>
           ) : null}
-          <Button disabled title={t.squad.marketSoon}>
-            {t.squad.market}
+          <Button asChild>
+            <Link href={action.href}>{action.label}</Link>
           </Button>
         </div>
         <span className="text-xs text-muted-foreground tabular-nums">

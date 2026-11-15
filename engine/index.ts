@@ -8,3 +8,4 @@ export * from "./salary";
 export * from "./season";
 export * from "./validate";
 export * from "./squad-view";
+export * from "./market";

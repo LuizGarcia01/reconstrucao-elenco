@@ -7,11 +7,12 @@ import { useMemo, useState } from "react";
 
 import { ClubBadge } from "@/components/club-badge";
 import { Button } from "@/components/ui/button";
-import { useClubCatalog } from "@/lib/club-data";
+import { clubOf, useCatalog } from "@/lib/club-data";
 import { usePlanStore } from "@/lib/plan-store";
 import { useHydrated } from "@/lib/use-hydrated";
 import { t } from "@/messages";
 
+import { Arrivals } from "./arrivals";
 import { CashBar } from "./cash-bar";
 import { PlayerRow } from "./player-row";
 import { PlayerSheet } from "./player-sheet";
@@ -24,7 +25,7 @@ export function SquadScreen() {
   const canUndo = usePlanStore((s) => s.history.length > 0);
   const undo = usePlanStore((s) => s.undo);
   const setDecisions = usePlanStore((s) => s.setDecisions);
-  const club = useClubCatalog(hydrated ? plan?.clubId : undefined);
+  const club = useCatalog(hydrated && plan !== null);
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [confirmRelease, setConfirmRelease] = useState(false);
@@ -37,7 +38,8 @@ export function SquadScreen() {
   if (!hydrated || (plan && club.status === "loading")) {
     return <div className="mt-6 h-96 animate-pulse rounded-xl bg-muted" aria-busy />;
   }
-  if (!plan || club.status === "error") {
+  const clubInfo = plan && club.status === "ready" ? clubOf(club.catalog, plan.clubId) : undefined;
+  if (!plan || club.status === "error" || (club.status === "ready" && !clubInfo)) {
     return (
       <div className="flex flex-col items-start gap-4 py-10">
         <p className="text-muted-foreground">{t.squad.noPlan}</p>
@@ -47,9 +49,9 @@ export function SquadScreen() {
       </div>
     );
   }
-  if (club.status !== "ready") return null;
+  if (club.status !== "ready" || !clubInfo) return null;
 
-  const { data, catalog } = club;
+  const { catalog } = club;
   const expiring = rows.filter((r) => r.contract === "expired" && r.decision.kind === "keep" && !r.decision.renewal);
   const open = rows.find((r) => r.player.id === openId) ?? null;
 
@@ -62,8 +64,8 @@ export function SquadScreen() {
     <>
       <main className="flex flex-col gap-5 py-5 pb-44">
         <div className="flex items-center gap-3">
-          <ClubBadge shortName={data.club.shortName} color={data.club.color} />
-          <h1 className="flex-1 text-2xl font-bold tracking-tight">{data.club.name}</h1>
+          <ClubBadge shortName={clubInfo.shortName} color={clubInfo.color} />
+          <h1 className="flex-1 text-2xl font-bold tracking-tight">{clubInfo.name}</h1>
         </div>
 
         {expiring.length > 0 ? (
@@ -118,10 +120,11 @@ export function SquadScreen() {
             </section>
           );
         })}
+        <Arrivals plan={plan} catalog={catalog} />
       </main>
 
       <PlayerSheet row={open} onClose={() => setOpenId(null)} />
-      <CashBar plan={plan} catalog={catalog} />
+      <CashBar plan={plan} catalog={catalog} action={{ href: "/mercado", label: t.squad.market }} />
     </>
   );
 }
