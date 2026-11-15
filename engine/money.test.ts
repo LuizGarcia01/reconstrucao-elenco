@@ -18,5 +18,6 @@ describe("money", () => {
     expect(formatMoney(800)).toBe("€ 800 mil");
     expect(formatMoney(-2000)).toBe("-€ 2 mi");
     expect(formatMoney(120_000)).toBe("€ 120 mi");
+    expect(formatMoney(0)).toBe("€ 0");
   });
 });
