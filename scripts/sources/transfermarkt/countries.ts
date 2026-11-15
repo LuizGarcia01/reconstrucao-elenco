@@ -25,7 +25,8 @@ const COUNTRIES: Record<string, string> = {
   "São Tomé e Príncipe": "ST", "Trinidad e Tobago": "TT", "El Salvador": "SV", Nicarágua: "NI",
   Montenegro: "ME", Macedônia: "MK", "Macedônia do Norte": "MK", Albânia: "AL", Kosovo: "XK",
   Geórgia: "GE", Armênia: "AM", Azerbaijão: "AZ", Lituânia: "LT", Letônia: "LV",
-  Estônia: "EE", Bielorrússia: "BY", Luxemburgo: "LU", Chipre: "CY", Malta: "MT",
+  Estônia: "EE", "RD do Congo": "CD", "República Democrática do Congo": "CD", Congo: "CG",
+  "Burkina Faso": "BF", Benin: "BJ", Gâmbia: "GM", Zâmbia: "ZM", Zimbábue: "ZW", Bielorrússia: "BY", Luxemburgo: "LU", Chipre: "CY", Malta: "MT",
 };
 
 export function countryCode(name: string): string | null {

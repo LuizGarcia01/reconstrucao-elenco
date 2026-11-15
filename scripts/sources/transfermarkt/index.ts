@@ -13,6 +13,7 @@ import { join } from "node:path";
 import { SNAPSHOT_VERSION, type Player, type Snapshot } from "../../../engine/catalog";
 import type { SnapshotSource } from "../types";
 import { CLUBS_BR } from "./clubs-br";
+import { countryCode } from "./countries";
 import { parseSquadPage } from "./parse";
 
 export const RAW_DIR = "data/raw/transfermarkt";
@@ -56,8 +57,8 @@ export async function buildFromSavedPages(season: string, report: BuildReport): 
         report.warnings.push(`${club.name} / ${p.name}: posição "${p.positionLabel}" sem mapa; ignorado.`);
         continue;
       }
-      const unknown = p.nationalityNames.filter((_, i) => p.nationalities.length <= i);
-      if (p.nationalities.length < p.nationalityNames.length) {
+      const unknown = p.nationalityNames.filter((n) => countryCode(n) === null);
+      if (unknown.length > 0) {
         report.warnings.push(`${club.name} / ${p.name}: país sem código (${unknown.join(", ")}).`);
       }
       players.push({
