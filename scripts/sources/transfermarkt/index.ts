@@ -23,7 +23,9 @@ const LEAGUE = {
   name: "Brasileirão Série A",
   country: "BR",
   tier: 1,
-  foreignLimit: 9, // estrangeiros relacionados por jogo — a confirmar no regulamento da temporada
+  // Estrangeiros relacionados por jogo em 2027 (o jogo simula 2027): 8, pela redução gradual
+  // aprovada por CBF e clubes em set/2026. Conferir quando o regulamento de 2027 sair.
+  foreignLimit: 8,
 };
 
 export interface BuildReport {
