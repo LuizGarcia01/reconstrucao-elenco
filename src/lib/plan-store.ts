@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { newPlan, PLAN_SCHEMA_VERSION, type Budget, type Decision, type Plan } from "@engine";
+import { newPlan, PLAN_SCHEMA_VERSION, type Budget, type CustomPlayer, type Decision, type Plan, type Signing } from "@engine";
 
 const HISTORY_LIMIT = 50;
 
@@ -16,8 +16,16 @@ interface PlanState {
   setBudget: (budget: Budget) => void;
   /** Define (ou, com null, volta ao padrão "fica") a decisão de vários jogadores de uma vez. */
   setDecisions: (changes: Record<string, Decision | null>) => void;
+  /** Contrata ou atualiza uma contratação. */
+  upsertSigning: (signing: Signing) => void;
+  removeSigning: (playerId: string) => void;
+  addCustomPlayer: (player: CustomPlayer) => void;
+  removeCustomPlayer: (id: string) => void;
   undo: () => void;
   reset: () => void;
+  /** Jogadores salvos para ver depois no mercado (não fazem parte do plano). */
+  saved: string[];
+  toggleSaved: (playerId: string) => void;
 }
 
 // localStorage pode falhar (aba anônima, armazenamento bloqueado): o app segue funcionando sem salvar.
@@ -61,6 +69,50 @@ export const usePlanStore = create<PlanState>()(
             history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
           };
         }),
+      upsertSigning: (signing) =>
+        set((s) =>
+          s.plan
+            ? {
+                plan: {
+                  ...s.plan,
+                  signings: [...s.plan.signings.filter((x) => x.playerId !== signing.playerId), signing],
+                },
+                history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
+              }
+            : s,
+        ),
+      removeSigning: (playerId) =>
+        set((s) =>
+          s.plan
+            ? {
+                plan: { ...s.plan, signings: s.plan.signings.filter((x) => x.playerId !== playerId) },
+                history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
+              }
+            : s,
+        ),
+      addCustomPlayer: (player) =>
+        set((s) =>
+          s.plan
+            ? {
+                plan: { ...s.plan, customPlayers: [...s.plan.customPlayers, player] },
+                history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
+              }
+            : s,
+        ),
+      removeCustomPlayer: (id) =>
+        set((s) =>
+          s.plan
+            ? {
+                plan: { ...s.plan, customPlayers: s.plan.customPlayers.filter((x) => x.id !== id) },
+                history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
+              }
+            : s,
+        ),
+      saved: [],
+      toggleSaved: (playerId) =>
+        set((s) => ({
+          saved: s.saved.includes(playerId) ? s.saved.filter((x) => x !== playerId) : [...s.saved, playerId],
+        })),
       undo: () =>
         set((s) => {
           const previous = s.history.at(-1);
@@ -72,9 +124,9 @@ export const usePlanStore = create<PlanState>()(
       name: "reconstrucao:plano",
       version: PLAN_SCHEMA_VERSION,
       storage: safeStorage,
-      partialize: (s) => ({ plan: s.plan }),
+      partialize: (s) => ({ plan: s.plan, saved: s.saved }),
       // Plano de versão desconhecida é descartado em vez de quebrar a tela.
-      migrate: () => ({ plan: null }),
+      migrate: () => ({ plan: null, saved: [] }),
     },
   ),
 );
