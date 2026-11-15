@@ -7,3 +7,4 @@ export * from "./rng";
 export * from "./salary";
 export * from "./season";
 export * from "./validate";
+export * from "./squad-view";
