@@ -2,10 +2,11 @@
  * O plano é o que o usuário decidiu na janela. Só decisões ficam gravadas;
  * extrato, caixa e folha são sempre calculados a partir delas (nunca guardados).
  */
-import type { Club, League, Player, Position, Snapshot } from "./catalog";
+import { ageOn, type Club, type League, type Player, type Position, type Snapshot } from "./catalog";
 import type { Money } from "./money";
 import { estimatedSalary } from "./salary";
-import { contractStatus, GAME_SEASON } from "./season";
+import { overallFrom } from "./rating";
+import { contractStatus, GAME_SEASON, SEASON_START } from "./season";
 
 export const PLAN_SCHEMA_VERSION = 1;
 
@@ -49,6 +50,15 @@ export interface Plan {
   decisions: Record<string, Decision>;
   signings: Signing[];
   customPlayers: CustomPlayer[];
+  /** XI e reservas. Ausente até o usuário abrir a tela do XI. */
+  lineup?: Lineup;
+}
+
+export interface Lineup {
+  formation: string; // id em FORMATIONS
+  /** slotId -> playerId (ou null se vazio) */
+  starters: Record<string, string | null>;
+  bench: string[];
 }
 
 export function newPlan(clubId: string, budget: Budget): Plan {
@@ -123,6 +133,12 @@ export interface SquadMember {
   nationalities: string[];
   origin: "kept" | "signed" | "youth" | "created";
   arrival: "window" | "mid_season";
+  overall: number;
+  secondaryPositions: Position[];
+}
+
+function overallOf(p: Player): number {
+  return overallFrom(p.marketValue, p.birthDate ? ageOn(p.birthDate, SEASON_START) : null);
 }
 
 export function salaryOf(plan: Plan, player: Player): Money {
@@ -145,6 +161,8 @@ export function resultingSquad(plan: Plan, catalog: Catalog): SquadMember[] {
       nationalities: p.nationalities,
       origin: "kept",
       arrival: "window",
+      overall: overallOf(p),
+      secondaryPositions: p.secondaryPositions,
     });
   }
   for (const s of plan.signings) {
@@ -159,6 +177,8 @@ export function resultingSquad(plan: Plan, catalog: Catalog): SquadMember[] {
       nationalities: p.nationalities,
       origin: "signed",
       arrival: s.arrival,
+      overall: overallOf(p),
+      secondaryPositions: p.secondaryPositions,
     });
   }
   for (const c of plan.customPlayers) {
@@ -171,6 +191,8 @@ export function resultingSquad(plan: Plan, catalog: Catalog): SquadMember[] {
       nationalities: [],
       origin: c.origin,
       arrival: "window",
+      overall: overallFrom(c.marketValue, null),
+      secondaryPositions: [],
     });
   }
   return squad;

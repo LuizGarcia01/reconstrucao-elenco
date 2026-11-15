@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { newPlan, PLAN_SCHEMA_VERSION, type Budget, type CustomPlayer, type Decision, type Plan, type Signing } from "@engine";
+import { newPlan, PLAN_SCHEMA_VERSION, type Budget, type CustomPlayer, type Decision, type Lineup, type Plan, type Signing } from "@engine";
 
 const HISTORY_LIMIT = 50;
 
@@ -21,6 +21,7 @@ interface PlanState {
   removeSigning: (playerId: string) => void;
   addCustomPlayer: (player: CustomPlayer) => void;
   removeCustomPlayer: (id: string) => void;
+  setLineup: (lineup: Lineup) => void;
   undo: () => void;
   reset: () => void;
   /** Jogadores salvos para ver depois no mercado (não fazem parte do plano). */
@@ -107,6 +108,10 @@ export const usePlanStore = create<PlanState>()(
                 history: [...s.history, s.plan].slice(-HISTORY_LIMIT),
               }
             : s,
+        ),
+      setLineup: (lineup) =>
+        set((s) =>
+          s.plan ? { plan: { ...s.plan, lineup }, history: [...s.history, s.plan].slice(-HISTORY_LIMIT) } : s,
         ),
       saved: [],
       toggleSaved: (playerId) =>
