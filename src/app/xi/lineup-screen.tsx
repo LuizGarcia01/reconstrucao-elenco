@@ -223,6 +223,10 @@ export function LineupScreen() {
         </ul>
       </section>
 
+      <Button asChild size="lg" className="self-start">
+        <Link href="/temporada">{t.season.open}</Link>
+      </Button>
+
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
           {t.lineup.out} · {out.length}
