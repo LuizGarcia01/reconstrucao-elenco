@@ -45,4 +45,8 @@ O site do Transfermarkt tem verificação anti-robô e o projeto não a contorna
 2. Salve com Ctrl+S como "Página da web, somente HTML" em `data/raw/transfermarkt/2026/` (o nome do arquivo não importa).
 3. Rode `npm run snapshot`. O comando avisa quais clubes faltam e qualquer posição ou país sem mapa.
 
-`data/raw/` não é versionado.
+`data/raw/` não é versionado. O retrato gerado (`data/snapshot.json`) é versionado: ele vai inteiro para o navegador de quem joga, então não há o que esconder, e assim o build não depende das páginas salvas.
+
+### Temporada
+
+O retrato usa os elencos da Série A **2026** (no Transfermarkt, `saison_id/2025`). O jogo trata esses elencos como o ponto de partida da janela para **2027**. Os clubes rebaixados em 2026 continuam no jogo.
