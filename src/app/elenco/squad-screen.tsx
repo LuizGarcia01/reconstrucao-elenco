@@ -1,7 +1,7 @@
 "use client";
 
 import { renewAllExpiring, squadRows, type Sector, type SquadRow } from "@engine";
-import { AlertTriangle, ReceiptText, RotateCcw, Users } from "lucide-react";
+import { AlertTriangle, LayoutGrid, ReceiptText, RotateCcw, Users } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -81,6 +81,12 @@ export function SquadScreen() {
         ) : null}
 
         <div className="flex flex-wrap gap-2">
+          <Button asChild variant="outline" size="sm" className="h-11">
+            <Link href="/xi">
+              <LayoutGrid />
+              {t.lineup.open}
+            </Link>
+          </Button>
           <Button asChild variant="outline" size="sm" className="h-11">
             <Link href="/balanco">
               <ReceiptText />

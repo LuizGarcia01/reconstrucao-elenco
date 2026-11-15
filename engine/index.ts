@@ -10,3 +10,4 @@ export * from "./validate";
 export * from "./squad-view";
 export * from "./market";
 export * from "./balance";
+export * from "./lineup";
